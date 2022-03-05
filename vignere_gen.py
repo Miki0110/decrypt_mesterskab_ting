@@ -51,41 +51,29 @@ with open("encryption.txt", "rb") as f:
 with open("results.txt", "w") as f:
     f.write('start\n')
 
-target = 'ddc'
+target = ' flag '
 
 def main():
-    # Danish text, flag is in text
+
+    # read for possible first word
     with open("words_length_9.txt", "rb") as file:
         words = file.read().decode("utf-8").strip()
-    # read for possible first word
+
     for i in range(0, len(words), 10):
         word = ''
         for x in range(0, 10):
             word += clean_input(words[i+x])
+
         # generate and check key
         key = vignere_key(word[:6],text[:6])
         decrypt = vignere_decrypt(key, text[:9])
         if decrypt[:9] == word[:9]:
             # if this passes there's a potential key
             decipheredtext = vignere_decrypt(key, text)
-            if target in decipheredtext: #check for DDC
+            if target in decipheredtext: #check for flag
                 with open('results.txt', 'ab+') as file:
                     file.write(("\n" + key + "\n").encode('utf-8'))
                     file.write(decipheredtext.encode('utf-8'))
-
-
-        #ciphertext = vignere_encrypt(key, text)
-        #if target in ciphertext:
-        #    with open('results.txt', 'ab+') as file:
-        #        file.write(("\n" + key + "\n").encode('utf-8'))
-        #        file.write(ciphertext.encode('utf-8'))
-
-
-    # Once you have decrypted the ciphertext, remember to add flag formatting
-    # For example:
-    # ddc example flag
-    # to
-    # ddc{example_flag}
 
 
 if __name__ == '__main__':
